@@ -10,6 +10,7 @@ import com.valve.register_games.domain.models.TimeGame;
 import com.valve.register_games.infrastructure.dtos.TimeGameDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,13 +25,18 @@ public class ImplTimeService implements ServiceTimeGame {
 
     @Autowired
     private PlayerStorage playerStorage;
+    @Transactional
     @Override
-    public String saveTimeGame(TimeGameDTO timeGameDTO) {
-        /*hacer validacion*/
+    public Object saveTimeGame(TimeGameDTO timeGameDTO) {
         Player player=playerStorage.findPlayerById(timeGameDTO.getIdPlayer());
         Game game=gameStorage.findGameById(timeGameDTO.getIdGame());
+        TimeGame timeGameFound =timeGameStorage.findTimeGameById(timeGameDTO.getId_time_game());
+
         if(game==null || player == null){
-            return "No se pudo encontrar"+player == null?"jugador con el id indicado":"juego con el id indicado";
+            return ("No existe un ")+ (player == null?"jugador con el id indicado":"juego con el id indicado");
+        }
+        if(timeGameFound != null){
+            return "Ya existe un Tiempo de Juego con ese id";
         }
         return timeGameStorage.saveTimeGame(TimeGame.builder()
                 .game(game)
@@ -38,36 +44,26 @@ public class ImplTimeService implements ServiceTimeGame {
                 .numberHours(timeGameDTO.getNumberHours())
                 .build());
     }
-
+    @Transactional(readOnly = true)
     @Override
     public List<TimeGame> getAll() {
         return null;
     }
 
+    @Transactional
     @Override
     public String deleteTimeGame(long idTimeGame) {
-        //TimeGame player = playerStorage.findPlayerById(timeGameDTO.getIdPlayer());
-        //Game game=gameStorage.findGameById(timeGameDTO.getIdGame());
-        //if(game==null || player == null){
-          //  return "No se pudo encontrar"+player == null?"jugador con el id indicado":"juego con el id indicado";
-        //};
-        TimeGame timeGame=TimeGame.builder().id_time_game(idTimeGame).build();
-        return  timeGameStorage.deleteTimeGame(timeGame);
+        TimeGame timeGameFound = timeGameStorage.findTimeGameById(idTimeGame);
+        return timeGameFound==null?"No existe el tiempo de juego":timeGameStorage.deleteTimeGame(timeGameFound);
     }
-
+    @Transactional
     @Override
-    public String editTimeGame(TimeGame timeGame) {
-        System.out.println("Time game search "+ timeGame.getId_time_game());
+    public Object editTimeGame(TimeGame timeGame) {
         TimeGame timeGameFound = timeGameStorage.findTimeGameById(timeGame.getId_time_game());
         if(timeGameFound == null){
-            return "No se pudo encontrar el tiempo";
+            return "No se pudo encontrar el tiempo de juego solicitado";
         }
         timeGameFound.setNumberHours(timeGame.getNumberHours());
-        //Player player=playerStorage.findPlayerById(timeGameDTO.getIdPlayer());
-        //Game game=gameStorage.findGameById(timeGameDTO.getIdGame());
-        //if(game==null || player == null){
-          //  return "No se pudo encontrar"+player == null?"jugador con el id indicado":"juego con el id indicado";
-        //}
-        return timeGameStorage.saveTimeGame(timeGameFound);
+        return timeGameStorage.editTimeGame(timeGameFound);
     }
 }

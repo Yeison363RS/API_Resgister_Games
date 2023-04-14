@@ -8,6 +8,6 @@ import java.util.List;
 
 @Service
 public interface ServiceGame {
-    String saveGame(Game game);
+    Object saveGame(Game game);
     List<Game> getTopGamesForPlayer(int numberTops,Player player);
 }

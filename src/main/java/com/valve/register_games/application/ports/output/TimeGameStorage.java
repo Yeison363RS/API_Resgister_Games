@@ -8,7 +8,8 @@ import java.util.List;
 @Service
 public interface TimeGameStorage {
     List<TimeGame> getAllTimesGame();
-    String saveTimeGame(TimeGame timeGame);
+    TimeGame saveTimeGame(TimeGame timeGame);
+    TimeGame editTimeGame(TimeGame timeGame);
     String deleteTimeGame(TimeGame timeGame);
 
     TimeGame findTimeGameById(long id);

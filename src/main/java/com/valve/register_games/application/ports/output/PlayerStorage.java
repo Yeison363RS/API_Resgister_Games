@@ -9,7 +9,7 @@ public interface PlayerStorage {
     List<Player> getTopPlayersAllGames(int numberTops);
     int getTimeGameOfPlayerOneGame(long idPlayer, long id_Game);
     List<Player> getTopPlayersOneGame(int numberTops,long idPlayer);
-    String savePlayer(Player player);
+    Player savePlayer(Player player);
     Player findPlayerById(long id);
 
     int getTotalTimeGameOnePlayer(long idPlayer);

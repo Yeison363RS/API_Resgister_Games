@@ -3,6 +3,7 @@ package com.valve.register_games.infrastructure.persistence.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +15,14 @@ public class GameEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_game", nullable = false)
     private Long id;
-
+    @NotNull
     @Column(name="name")
     private String Name;
-
+    @NotNull
     @Column(name="description")
     private String description;
-
+    @NotNull
+    @Temporal(TemporalType.DATE)
     @Column(name="date_release")
     private Date dateRelease;
 

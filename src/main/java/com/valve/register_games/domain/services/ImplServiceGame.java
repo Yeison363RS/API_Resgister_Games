@@ -7,6 +7,7 @@ import com.valve.register_games.domain.models.Game;
 import com.valve.register_games.domain.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,12 +18,14 @@ public class ImplServiceGame implements ServiceGame {
     private GameStorage gameStorage;
     @Autowired
     private PlayerStorage playerStorage;
+    @Transactional
     @Override
-    public String saveGame(Game game) {
-        return gameStorage.saveGame(game);
+    public Object saveGame(Game game) {
+        return gameStorage.findGameById(game.getId())!= null?"Este Juego ya existe":gameStorage.saveGame(game);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Game> getTopGamesForPlayer(int numberTops, Player player) {
         /*validar que el jugador exista o buscarlo por alguno de los atributos para obtener un objeto
         TO DO..*/

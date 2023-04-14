@@ -8,9 +8,9 @@ import java.util.List;
 
 @Service
 public interface ServiceTimeGame {
-    String saveTimeGame(TimeGameDTO player);
+    Object saveTimeGame(TimeGameDTO player);
     List<TimeGame> getAll();
     String deleteTimeGame(long idTimeGame);
 
-    String editTimeGame(TimeGame timeGame);
+    Object editTimeGame(TimeGame timeGame);
 }

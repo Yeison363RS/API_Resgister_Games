@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.persistence.ColumnResult;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +16,13 @@ public class PlayerEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_player", nullable = false)
     private Long id;
+    @NotNull
     @Column(name = "email")
     private String email;
+    @NotNull
     @Column(name = "name")
     private String name;
+    @NotNull
     @Column(name = "last_name")
     private String lastName;
     @Temporal(TemporalType.DATE)
@@ -26,6 +30,7 @@ public class PlayerEntity {
     private Date birthdate;
     @Column(name = "gender")
     private String gender;
+    @NotNull
     @Column(name = "username")
     private String username;
     @OneToMany(fetch = FetchType.LAZY,

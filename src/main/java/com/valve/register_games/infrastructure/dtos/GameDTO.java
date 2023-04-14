@@ -7,6 +7,7 @@ import lombok.Data;
 import java.util.Date;
 @Data
 public class GameDTO {
+    private long id;
     private String name;
     private String description;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")

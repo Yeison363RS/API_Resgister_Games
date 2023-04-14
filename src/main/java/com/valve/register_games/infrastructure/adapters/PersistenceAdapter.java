@@ -43,12 +43,14 @@ public class PersistenceAdapter implements GameStorage, PlayerStorage, TimeGameS
 
     @Override
     public Game findGameById(long id) {
-        return modelMapper.map(gameRepository.findById(id).get(),Game.class);
+        GameEntity game = gameRepository.findById(id).orElse(null);
+        return game==null?null:modelMapper.map(game,Game.class);
     }
 
     @Override
     public Player findPlayerById(long id) {
-        return modelMapper.map(playerRepository.findById(id).get(),Player.class);
+        PlayerEntity player = playerRepository.findById(id).orElse(null);
+        return player==null?null:modelMapper.map(player,Player.class);
     }
 
     @Override
@@ -57,9 +59,8 @@ public class PersistenceAdapter implements GameStorage, PlayerStorage, TimeGameS
     }
 
     @Override
-    public String saveGame(Game game) {
-        gameRepository.save(modelMapper.map(game, GameEntity.class));
-        return"se ha registrado un juego";
+    public Game saveGame(Game game) {
+        return modelMapper.map(gameRepository.save(modelMapper.map(game,GameEntity.class)),Game.class);
     }
 
     @Override
@@ -86,9 +87,8 @@ public class PersistenceAdapter implements GameStorage, PlayerStorage, TimeGameS
     }
 
     @Override
-    public String savePlayer(Player player) {
-        playerRepository.save(modelMapper.map(player,PlayerEntity.class));
-        return"se ha registrado un jugador";
+    public Player savePlayer(Player player) {
+        return modelMapper.map(playerRepository.save(modelMapper.map(player,PlayerEntity.class)),Player.class);
     }
 
     @Override
@@ -97,9 +97,13 @@ public class PersistenceAdapter implements GameStorage, PlayerStorage, TimeGameS
     }
 
     @Override
-    public String saveTimeGame(TimeGame timeGame) {
-        timeGameRepository.save(modelMapper.map(timeGame, TimeGameEntity.class));
-        return"se ha registrado un nuevo tiempo de juego";
+    public TimeGame saveTimeGame(TimeGame timeGame) {
+        return modelMapper.map(timeGameRepository.save(modelMapper.map(timeGame, TimeGameEntity.class)),TimeGame.class);
+    }
+
+    @Override
+    public TimeGame editTimeGame(TimeGame timeGame) {
+        return modelMapper.map(timeGameRepository.save(modelMapper.map(timeGame, TimeGameEntity.class)),TimeGame.class);
     }
 
     @Override
@@ -110,6 +114,7 @@ public class PersistenceAdapter implements GameStorage, PlayerStorage, TimeGameS
 
     @Override
     public TimeGame findTimeGameById(long id) {
-        return modelMapper.map(timeGameRepository.findById(id).get(),TimeGame.class);
+        TimeGameEntity timeGame=timeGameRepository.findById(id).orElse(null);
+         return timeGame==null?null:modelMapper.map(timeGame,TimeGame.class);
     }
 }

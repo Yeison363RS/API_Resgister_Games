@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,26 +61,30 @@ public class ControllerAPI {
     }
 
     @PostMapping("/savePlayer")
-    public ResponseEntity<String> savePlayer(@RequestBody PlayerDTO player){
-        return new ResponseEntity<>(servicePlayer.savePlayer(modelMapper.map(player, Player.class)),HttpStatus.OK);
+    public ResponseEntity<?> savePlayer(@RequestBody PlayerDTO player){
+        Object playerSaved=servicePlayer.savePlayer(modelMapper.map(player, Player.class));
+        return new ResponseEntity<>(playerSaved.getClass()!=String.class?modelMapper.map(playerSaved,PlayerDTO.class):playerSaved,HttpStatus.OK);
     }
 
     @PostMapping("/saveGame")
-    public ResponseEntity<String> saveGame(@RequestBody GameDTO game){
-        return new ResponseEntity<>(serviceGame.saveGame(modelMapper.map(game, Game.class)),HttpStatus.OK);
+    public ResponseEntity<?> saveGame(@RequestBody GameDTO game){
+        Object gameSaved=serviceGame.saveGame(modelMapper.map(game, Game.class));
+        return new ResponseEntity<>(gameSaved.getClass()!=String.class?modelMapper.map(gameSaved,GameDTO.class):gameSaved,HttpStatus.OK);
     }
 
     @PostMapping("/saveTime")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<String>  saveTimeGame(@RequestBody TimeGameDTO timeGame){
-        return new ResponseEntity<>(serviceTimeGame.saveTimeGame(timeGame),HttpStatus.OK);
+    public ResponseEntity<?>  saveTimeGame(@RequestBody TimeGameDTO timeGame){
+        Object timeSaved=serviceTimeGame.saveTimeGame(timeGame);
+        return new ResponseEntity<>(timeSaved.getClass()!=String.class?modelMapper.map(timeSaved,TimeGameDTO.class):timeSaved,HttpStatus.OK);
     }
 
     @PutMapping("/editTime")
     @ResponseStatus(code = HttpStatus.OK)
-    public  ResponseEntity<String>  editTimeGameForOnePlayerInOneGame(@RequestBody TimeGameDTO timeGame){
+    public  ResponseEntity<?>  editTimeGameForOnePlayerInOneGame(@RequestBody TimeGameDTO timeGame){
         System.out.println("timegameid :"+timeGame.getId_time_game());
-        return new ResponseEntity<>(serviceTimeGame.editTimeGame(modelMapper.map(timeGame, TimeGame.class)),HttpStatus.OK);
+        Object timeSaved = serviceTimeGame.editTimeGame(modelMapper.map(timeGame, TimeGame.class));
+        return new ResponseEntity<>(timeSaved.getClass()!=String.class?modelMapper.map(timeSaved,TimeGameDTO.class):timeSaved,HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteTime/{idTimeGame}")

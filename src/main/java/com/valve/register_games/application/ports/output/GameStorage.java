@@ -8,5 +8,5 @@ import java.util.List;
 public interface GameStorage {
     List<Game> getTopGamesByOnePlayer(int nTops,long idPlayer);
     Game findGameById(long id);
-    String saveGame(Game game);
+    Game saveGame(Game game);
 }

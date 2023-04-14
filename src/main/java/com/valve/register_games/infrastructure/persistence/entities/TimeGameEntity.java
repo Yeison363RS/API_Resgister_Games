@@ -1,8 +1,6 @@
 package com.valve.register_games.infrastructure.persistence.entities;
 
-import com.valve.register_games.domain.models.Player;
 import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 

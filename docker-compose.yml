@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    image: mysql:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=$NAME_DATABASE
+    ports:
+      - $MYSQLDB_HOST_PORT:$MYSQLDB_CONTAINER_PORT
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    depends_on:
+      - mysqldb
+    build: ./register-app
+    restart: on-failure
+    env_file: .env
+    ports:
+      - $APP_HOST_PORT:$APP_CONTAINER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_CONTAINER_PORT/$NAME_DATABASE?useSSL=false",
+        "spring.datasource.username" : "$MYSQL_USER_ROOT",
+        "spring.datasource.password" : "$MYSQL_ROOT_PASSWORD",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+volumes:
+  db:

@@ -28,8 +28,6 @@ public class ImplServicePlayer implements ServicePlayer {
     @Transactional(readOnly = true)
     @Override
     public List<Player> getTopPlayersForGame(int numberTops, Game game) {
-        /*validar que el juego exista o buscarlo por alguno de los atributos para obtener un objeto
-        TO DO..*/
         List<Player> list=playerStorage.getTopPlayersOneGame(numberTops,game.getId());
         list.forEach(player -> player.setHours_game(getTimeGameOfPlayerOneGame(player.getId(),game.getId())));
         return list;

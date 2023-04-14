@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.valve</groupId>
 	<artifactId>register_games</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>register_games</name>
 	<description>Technical Test</description>
 	<properties>

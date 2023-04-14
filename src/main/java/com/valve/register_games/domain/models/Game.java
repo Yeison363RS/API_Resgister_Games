@@ -10,6 +10,6 @@ public class Game {
     private String name;
     private String description;
     private Date dateRelease;
-    private int quatification;
+    private int quantification;
     private int hours_game;
 }

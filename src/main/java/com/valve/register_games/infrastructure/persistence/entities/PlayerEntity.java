@@ -3,7 +3,6 @@ package com.valve.register_games.infrastructure.persistence.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.persistence.ColumnResult;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;

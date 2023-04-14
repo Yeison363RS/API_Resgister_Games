@@ -91,10 +91,6 @@ public class PersistenceAdapter implements GameStorage, PlayerStorage, TimeGameS
         return modelMapper.map(playerRepository.save(modelMapper.map(player,PlayerEntity.class)),Player.class);
     }
 
-    @Override
-    public List<TimeGame> getAllTimesGame() {
-        return null;
-    }
 
     @Override
     public TimeGame saveTimeGame(TimeGame timeGame) {
@@ -109,7 +105,7 @@ public class PersistenceAdapter implements GameStorage, PlayerStorage, TimeGameS
     @Override
     public String deleteTimeGame(TimeGame timeGame) {
         timeGameRepository.delete(modelMapper.map(timeGame,TimeGameEntity.class));
-        return"se ha eliminado un tiempo de juego";
+        return"Se ha eliminado uno Tiempo de juego";
     }
 
     @Override

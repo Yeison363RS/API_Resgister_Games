@@ -12,5 +12,6 @@ public class GameDTO {
     private String description;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date dateRelease;
+    private int quantification;
     private int hours_game;
 }
